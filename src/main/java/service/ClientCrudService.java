@@ -13,40 +13,58 @@ public class ClientCrudService {
     @Getter
     private final SessionFactory sessions = HibernateUtil.getInstance().getSessionFactory();
 
-    public void createClient(String name) {
+    public void create (String name) {
         Session session = sessions.openSession();
-            Transaction transaction = session.beginTransaction();
-                Client newClient = new Client();
-                newClient.setName(name);
-                session.persist(newClient);
+        Transaction transaction = session.beginTransaction();
+        try {
+            Client newClient = new Client();
+            newClient.setName(name);
+            session.persist(newClient);
             transaction.commit();
-        session.close();
+        }catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
-    public Client getClientById(long id){
+    public Client getById(long id){
         Session session = sessions.openSession();
             Client client = session.get(Client.class, id);
         session.close();
         return client;
     }
 
-    public void deleteClientById(long id){
+    public void delete(long id){
         Session session = sessions.openSession();
-            Transaction transaction = session.beginTransaction();
-                Client removedClient = session.get(Client.class, id);
-                session.remove(removedClient);
+        Transaction transaction = session.beginTransaction();
+        try {
+            Client removedClient = session.get(Client.class, id);
+            session.remove(removedClient);
             transaction.commit();
-        session.close();
+        }catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
-    public void updateClient(long id, String name){
+    public void update(long id, String name){
         Session session = sessions.openSession();
-            Transaction transaction = session.beginTransaction();
-                Client renewClient = session.get(Client.class, id);
-                renewClient.setName(name);
-                session.persist(renewClient);
+        Transaction transaction = session.beginTransaction();
+        try {
+            Client renewClient = session.get(Client.class, id);
+            renewClient.setName(name);
+            session.persist(renewClient);
             transaction.commit();
-        session.close();
+        }catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 
     public List<Client> getAllClients() {

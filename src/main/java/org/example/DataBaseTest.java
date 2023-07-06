@@ -20,17 +20,17 @@ public class DataBaseTest {
 
         ClientCrudService clientCrudService = new ClientCrudService();
         PlanetCrudService planetCrudService = new PlanetCrudService();
-        Client clientById = clientCrudService.getClientById(1L);
+        Client clientById = clientCrudService.getById(1L);
         System.out.println(clientById);
 
-        clientCrudService.createClient("Valeriia Sosedka");
-        clientCrudService.updateClient(3L, "Dmytro Dmytrenko");
-        clientCrudService.deleteClientById(4L);
+        clientCrudService.create("Valeriia Sosedka");
+        clientCrudService.update(3L, "Dmytro Dmytrenko");
+        clientCrudService.delete(4L);
         System.out.println(clientCrudService.getAllClients());
 
-        planetCrudService.createPlanet("TEST", "Test Planet");
-        planetCrudService.updatePlanet("SOLON", "Sololand");
-        planetCrudService.deletePlanetById("VENA");
+        planetCrudService.create("TEST", "Test Planet");
+        planetCrudService.update("SOLON", "Sololand");
+        planetCrudService.delete("VENA");
         System.out.println(planetCrudService.getAllPlanets());
 
 
