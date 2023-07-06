@@ -1,9 +1,6 @@
 package entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -13,5 +10,6 @@ public class Client {
     @Column
     public String name;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long id;
 }
