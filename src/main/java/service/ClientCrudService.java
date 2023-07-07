@@ -3,6 +3,7 @@ package service;
 import database.HibernateUtil;
 import entity.Client;
 import lombok.Getter;
+import org.h2.value.CompareModeIcu4J;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,13 +14,11 @@ public class ClientCrudService {
     @Getter
     private final SessionFactory sessions = HibernateUtil.getInstance().getSessionFactory();
 
-    public void create (String name) {
+    public void create (Client client) {
         Session session = sessions.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Client newClient = new Client();
-            newClient.setName(name);
-            session.persist(newClient);
+            session.persist(client);
             transaction.commit();
         }catch (Exception e) {
             transaction.rollback();
@@ -51,15 +50,13 @@ public class ClientCrudService {
         }
     }
 
-    public void update(long id, String name){
+    public void update(Client client) {
         Session session = sessions.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Client renewClient = session.get(Client.class, id);
-            renewClient.setName(name);
-            session.persist(renewClient);
+            session.merge(client);
             transaction.commit();
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
         } finally {

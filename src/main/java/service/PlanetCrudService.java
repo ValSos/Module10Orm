@@ -14,15 +14,11 @@ public class PlanetCrudService {
     @Getter
     private final SessionFactory sessions = HibernateUtil.getInstance().getSessionFactory();
 
-    public void create(String id, String name) {
+    public void create(Planet planet) {
         Session session = sessions.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Planet newPlanet = new Planet();
-            newPlanet.setId(id);
-            newPlanet.setName(name);
-            session.persist(newPlanet);
-
+            session.persist(planet);
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
@@ -55,16 +51,13 @@ public class PlanetCrudService {
         }
     }
 
-    public void update(String id, String name){
+    public void update(Planet planet){
         Session session = sessions.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Planet renewPlanet = session.get(Planet.class, id);
-            renewPlanet.setName(name);
-            renewPlanet.setId(id);
-            session.persist(renewPlanet);
+            session.merge(planet);
             transaction.commit();
-        }catch (Exception e) {
+        } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
         } finally {

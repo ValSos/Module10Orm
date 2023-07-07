@@ -2,6 +2,7 @@ package org.example;
 
 import database.HibernateUtil;
 import entity.Client;
+import entity.Planet;
 import org.flywaydb.core.Flyway;
 import service.ClientCrudService;
 import service.PlanetCrudService;
@@ -23,13 +24,24 @@ public class DataBaseTest {
         Client clientById = clientCrudService.getById(1L);
         System.out.println(clientById);
 
-        clientCrudService.create("Valeriia Sosedka");
-        clientCrudService.update(3L, "Dmytro Dmytrenko");
+        Client client = new Client();
+        client.setName("Valeriia Sosedka");
+        clientCrudService.create(client);
+        Client client2 = new Client();
+        client2.setId(3L);
+        client2.setName("Dmytro Dmytrenko");
+        clientCrudService.update(client2);
         clientCrudService.delete(4L);
         System.out.println(clientCrudService.getAllClients());
 
-        planetCrudService.create("TEST", "Test Planet");
-        planetCrudService.update("SOLON", "Sololand");
+        Planet planet = new Planet();
+        planet.setId("TEST");
+        planet.setName("Test Planet");
+        planetCrudService.create(planet);
+        Planet planet2 = new Planet();
+        planet2.setId("SOLON");
+        planet2.setName("Sololand");
+        planetCrudService.update(planet2);
         planetCrudService.delete("VENA");
         System.out.println(planetCrudService.getAllPlanets());
 
